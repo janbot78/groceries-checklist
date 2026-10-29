@@ -372,7 +372,7 @@ dialog p {
       <p id="save-note" class="save-note" hidden></p>
     </header>
 
-    <div id="list" class="list"><section class="category"><h2>Personal care / bath</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">shampoo</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">conditioner</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">body wash</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">loofah</span></label></li></ul></section><section class="category"><h2>Pet</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">dog food</span></label></li></ul></section><section class="category"><h2>Seasonal / holiday</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">Halloween tights</span></label></li></ul></section></div>
+    <div id="list" class="list"><section class="category"><h2>Personal care / bath</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">shampoo</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">conditioner</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">body wash</span></label></li><li><label class="item"><input type="checkbox"><span class="item-name">loofah</span></label></li></ul></section><section class="category"><h2>Pet</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">dog food</span></label></li></ul></section><section class="category"><h2>Household</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">white vinegar</span></label></li></ul></section><section class="category"><h2>Seasonal / holiday</h2><ul><li><label class="item"><input type="checkbox"><span class="item-name">Halloween tights</span></label></li></ul></section></div>
 
     <div class="actions">
       <button type="button" id="uncheck-all" class="secondary">Uncheck all</button>
@@ -417,6 +417,7 @@ const SEED = [
   { name: "body wash", category: "Personal care / bath" },
   { name: "loofah", category: "Personal care / bath" },
   { name: "dog food", category: "Pet" },
+  { name: "white vinegar", category: "Household" },
   { name: "Halloween tights", category: "Seasonal / holiday" },
 ];
 
@@ -470,10 +471,22 @@ function loadItems() {
     if (raw === null) return seedItems();
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || parsed.length === 0 || !parsed.every(isItem)) return seedItems();
-    return parsed;
+    return mergeSeed(parsed);
   } catch {
     return seedItems();
   }
+}
+
+function mergeSeed(existing) {
+  const have = new Set(existing.map((item) => item.name.toLowerCase()));
+  const additions = SEED.filter((item) => !have.has(item.name.toLowerCase())).map((item) => ({
+    id: uid(),
+    name: item.name,
+    category: item.category,
+    checked: false,
+  }));
+  if (!additions.length) return existing;
+  return existing.concat(additions);
 }
 
 function saveItems() {

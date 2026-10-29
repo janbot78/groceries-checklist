@@ -6,6 +6,7 @@ const SEED = [
   { name: "body wash", category: "Personal care / bath" },
   { name: "loofah", category: "Personal care / bath" },
   { name: "dog food", category: "Pet" },
+  { name: "white vinegar", category: "Household" },
   { name: "Halloween tights", category: "Seasonal / holiday" },
 ];
 
@@ -58,11 +59,23 @@ function loadItems() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw === null) return seedItems();
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || !parsed.every(isItem)) return seedItems();
-    return parsed;
+    if (!Array.isArray(parsed) || parsed.length === 0 || !parsed.every(isItem)) return seedItems();
+    return mergeSeed(parsed);
   } catch {
     return seedItems();
   }
+}
+
+function mergeSeed(existing) {
+  const have = new Set(existing.map((item) => item.name.toLowerCase()));
+  const additions = SEED.filter((item) => !have.has(item.name.toLowerCase())).map((item) => ({
+    id: uid(),
+    name: item.name,
+    category: item.category,
+    checked: false,
+  }));
+  if (!additions.length) return existing;
+  return existing.concat(additions);
 }
 
 function saveItems() {
