@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Groceries">
   <meta name="description" content="Janna Smith's grocery checklist. Check items off in the browser; the list stays on this device.">
   <meta name="theme-color" content="#f4efe6">
   <title>Groceries · Janna Smith</title>
@@ -367,7 +372,8 @@ dialog p {
   <main class="sheet">
     <header class="masthead">
       <p class="who">Janna Smith</p>
-      <h1>Groceries</h1>
+      <p id="build-stamp" class="save-note" hidden>Updated Oct 28, 2026 · white vinegar</p>
+    <h1>Groceries</h1>
       <p id="summary" class="summary" aria-live="polite"></p>
       <p id="save-note" class="save-note" hidden></p>
     </header>
@@ -436,6 +442,7 @@ const confirmText = document.querySelector("#confirm-text");
 
 let items = loadItems();
 let saveError = "";
+saveItems(); // persist any newly merged seed items
 
 function uid() {
   if (window.crypto && typeof crypto.randomUUID === "function") {
@@ -697,6 +704,9 @@ window.addEventListener("storage", (event) => {
   items = loadItems();
   render();
 });
+
+const stamp = document.querySelector("#build-stamp");
+if (stamp) stamp.hidden = false;
 
 render();
 

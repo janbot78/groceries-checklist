@@ -25,6 +25,7 @@ const confirmText = document.querySelector("#confirm-text");
 
 let items = loadItems();
 let saveError = "";
+saveItems(); // persist any newly merged seed items
 
 function uid() {
   if (window.crypto && typeof crypto.randomUUID === "function") {
