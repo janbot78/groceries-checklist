@@ -1,0 +1,44 @@
+[
+  {
+    "name": "shampoo",
+    "category": "Personal care / bath",
+    "unit": "bottle",
+    "target": 1
+  },
+  {
+    "name": "conditioner",
+    "category": "Personal care / bath",
+    "unit": "bottle",
+    "target": 1
+  },
+  {
+    "name": "body wash",
+    "category": "Personal care / bath",
+    "unit": "bottle",
+    "target": 1
+  },
+  {
+    "name": "loofah",
+    "category": "Personal care / bath",
+    "unit": "each",
+    "target": 1
+  },
+  {
+    "name": "dog food",
+    "category": "Pet",
+    "unit": "bag",
+    "target": 1
+  },
+  {
+    "name": "white vinegar",
+    "category": "Household",
+    "unit": "bottle",
+    "target": 1
+  },
+  {
+    "name": "Halloween tights",
+    "category": "Seasonal / holiday",
+    "unit": "pair",
+    "target": 1
+  }
+]
